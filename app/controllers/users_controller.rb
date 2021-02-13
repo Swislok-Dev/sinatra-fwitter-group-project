@@ -4,7 +4,7 @@ class UsersController < ApplicationController
     @user = User.find_by_slug(params[:slug])
     @tweets = @user.tweets
 
-    erb :'users/show'
+    erb :'users/show_tweet'
   end
 
 end
