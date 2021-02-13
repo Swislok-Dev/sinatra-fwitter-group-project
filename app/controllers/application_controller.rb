@@ -1,10 +1,14 @@
 require './config/environment'
 
 class ApplicationController < Sinatra::Base
+  include Helpers
 
   configure do
     set :public_folder, 'public'
     set :views, 'app/views'
+
+    enable :sessions
+    set :session_secret, "password_security"
   end
 
   get '/' do
@@ -12,13 +16,24 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/signup' do
-    erb :'users/create_user'
+    if logged_in?(session)
+      redirect "/tweets"
+    else
+      erb :'users/create_user'
+    end
   end
 
   post '/signup' do
-    @user = User.create(params)
-    session[:user_id] = @user.id
-    redirect '/tweets'
+    @user = User.new(params)
+
+    if @user.username == "" || @user.email == "" || @user.password == ""
+      redirect "/signup"
+    elsif @user.save
+      session[:id] = @user.id
+      redirect "/tweets"
+    else
+      redirect "/signup"
+    end
   end
 
 end
