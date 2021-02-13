@@ -1,5 +1,11 @@
+
+
 class TweetsController < ApplicationController
+  include Helpers
+  
   enable :sessions
+  enable :method_override
+
 
   get '/tweets' do
     if logged_in?(session)
@@ -12,8 +18,12 @@ class TweetsController < ApplicationController
     erb :'tweets/tweets'
   end
 
-  get '/new' do
-    erb :'/tweets/new'
+  get '/tweets/new' do
+    if logged_in?(session)
+      erb :'tweets/new'
+    else
+      redirect '/login'
+    end
   end
 
  
