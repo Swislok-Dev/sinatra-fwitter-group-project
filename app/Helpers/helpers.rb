@@ -7,10 +7,13 @@ module Helpers
   end
 
   def logged_in?(session)
-    if session[:id] != nil
-      user_it = current_user(session).id
-      session[:id] == user_id ? true : false
-    end
+
+    !!session[:id]
+
+    # if session[:id] != nil
+    #   user_id = current_user(session).id
+    #   session[:id] == user_id ? true : false
+    # end
   end
 
 end
