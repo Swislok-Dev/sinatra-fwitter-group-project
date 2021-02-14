@@ -2,7 +2,7 @@
 
 class TweetsController < ApplicationController
   include Helpers
-  
+
   enable :sessions
   enable :method_override
 
